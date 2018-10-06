@@ -5,24 +5,17 @@ const path = require('path');
 const cors = require('cors')
 const axios = require('axios');
 const compression = require('compression')
-const port = 3000;
+const port = 1338;
 
 const app = express();
-
 app.use(compression());
-
 app.use(cors());
-
 app.use(morgan('dev'));
-
 app.use('/songs/:id', express.static('public'));
 
-app.get('/:id', (req, res) => {
-  res.send('I HAVE REACHED THE PROXY  params->  ' + req.params.id);
-})
-
 app.get('/api/waveformplayer/:id', (req, res) => {
-  axios(`http://18.219.124.16/api/waveformplayer/${req.params.id}`)
+  console.log("proxy server detected a get request to /api/waveformplayer/:id");
+  axios(`http://localhost:1337/api/waveformplayer/${req.params.id}`)
     .then(function (response) {
       res.send(response.data)
     })
@@ -78,5 +71,5 @@ app.get('/api/comments/:id', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`server running at: http://localhost:${port}`);
+  console.log(`avincenthill proxy server listening at ${port}...`);
 });
