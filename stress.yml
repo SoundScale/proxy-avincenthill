@@ -1,0 +1,9 @@
+config:
+  target: 'http://localhost:1338'
+  phases:
+    - duration: 300
+      arrivalRate: 500
+scenarios:
+  - flow:
+    - get:
+        url: /songs/{{$randomNumber(1, 100000)}}
