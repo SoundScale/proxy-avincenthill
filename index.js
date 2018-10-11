@@ -8,7 +8,6 @@ const cors = require('cors');
 const axios = require('axios');
 const compression = require('compression');
 
-console.log(process.env.PROXY_PORT);
 const port = process.env.PROXY_PORT || 1338;
 
 const app = express();
@@ -26,6 +25,11 @@ app.get('/api/waveformplayer/:id', (req, res) => {
     .catch(function (error) {
       console.log(error);
     })
+});
+
+// loader.io
+app.get('/loaderio-*/', (req, res) => {
+  res.status(200).send(process.env.LOADERIO_KEY);
 });
 
 // app.get('/relatedTracks/:id', (req, res) => {
