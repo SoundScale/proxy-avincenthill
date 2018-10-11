@@ -3,11 +3,13 @@ require('newrelic');
 
 const express = require('express');
 const morgan = require('morgan');
-const path = require('path');
-const cors = require('cors')
+// const path = require('path');
+const cors = require('cors');
 const axios = require('axios');
-const compression = require('compression')
-const port = 1338;
+const compression = require('compression');
+
+console.log(process.env.PROXY_PORT);
+const port = process.env.PROXY_PORT || 1338;
 
 const app = express();
 app.use(compression());
@@ -17,7 +19,7 @@ app.use('/songs/:id', express.static('public'));
 
 app.get('/api/waveformplayer/:id', (req, res) => {
   console.log("proxy server sent a GET request to /api/waveformplayer/:id");
-  axios(`http://sdclb-2122289528.us-west-1.elb.amazonaws.com/api/waveformplayer/${req.params.id}`)
+  axios(`${process.env.LB_HOST}/api/waveformplayer/${req.params.id}`)
     .then(function (response) {
       res.send(response.data)
     })
