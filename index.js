@@ -18,7 +18,7 @@ app.use('/songs/:id', express.static('public'));
 
 // AVH
 app.get('/api/waveformplayer/:id', (req, res) => {
-  console.log("proxy server sent a GET request to /api/waveformplayer/:id");
+  // console.log("proxy server sent a GET request to /api/waveformplayer/:id");
   axios(`${process.env.LB_HOST}/api/waveformplayer/${req.params.id}`)
     .then(function (response) {
       res.send(response.data)
