@@ -16,6 +16,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use('/songs/:id', express.static('public'));
 
+// AVH
 app.get('/api/waveformplayer/:id', (req, res) => {
   console.log("proxy server sent a GET request to /api/waveformplayer/:id");
   axios(`${process.env.LB_HOST}/api/waveformplayer/${req.params.id}`)
@@ -25,6 +26,29 @@ app.get('/api/waveformplayer/:id', (req, res) => {
     .catch(function (error) {
       console.log(error);
     })
+});
+
+// Brandon
+app.get('/api/stats/:id', (req, res) => {
+  // axios.get(`http://127.0.0.1:3004/api/stats/${req.params.id}`)
+  axios.get(`http://sdc-load-balancer-1743830225.us-west-1.elb.amazonaws.com/api/stats/${req.params.id}`)
+    .then(({ data }) => {
+      res.json(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+// James
+app.get('/api/comments/:id', (req, res) => {
+  axios.get(`http://soundscale-comments-lb-513047902.us-west-1.elb.amazonaws.com/api/comments/${req.params.id}`)
+    .then(function (response) {
+      res.send(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 });
 
 // loader.io
